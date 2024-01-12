@@ -19,6 +19,7 @@ init
 
         vars.Helper["stage"] = mono.Make<int>("Game", "instance", "state", "stage");
         vars.Helper["lastSaveTime"] = mono.MakeString("Game", "instance", "state", "lastSaveTime");
+        vars.Helper["playtime"] = mono.Make<float>("Game", "instance", "state", "playtime");
 
         vars.Helper["campsPtrs"] = mono.MakeList<IntPtr>("Game", "instance", "state", "camps");
 
@@ -41,7 +42,7 @@ update
 
 start
 {
-    return settings["start"] && current.lastSaveTime != old.lastSaveTime && current.stage == 0;
+    return settings["start"] && current.lastSaveTime != old.lastSaveTime && current.stage == 0 && current.playtime < 0.5;
 }
 
 split
