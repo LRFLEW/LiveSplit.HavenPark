@@ -23,7 +23,8 @@ init
 
         vars.Helper["campsPtrs"] = mono.MakeList<IntPtr>("Game", "instance", "state", "camps");
 
-        vars.Helper["currentCinematic"] = mono.Make<long>("Game", "instance", "currentCinematic");
+        vars.Helper["currentCinematic"] = mono.Make<IntPtr>("Game", "instance", "currentCinematic");
+        vars.Helper["currentCinematic"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
 
         vars.Helper["demoOpen"] = mono.Make<bool>("Game", "instance", "refs", "demo", "windowEndDemo", "open");
 
@@ -47,7 +48,8 @@ start
 
 split
 {
-    return (settings["cutscene"] && current.stage > 0 && old.currentCinematic == 0 && current.currentCinematic != 0) ||
+    IntPtr zero = new IntPtr(0);
+    return (settings["cutscene"] && current.stage > 0 && old.currentCinematic == zero && current.currentCinematic != zero) ||
            (settings["campsite"] && current.camps > old.camps) ||
            (settings["demo"] && !old.demoOpen && current.demoOpen);
 }
